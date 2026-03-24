@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Living Architecture — Experiential Objects of Light</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Living Architecture creates experiential objects that merge material, light, and behavior into a unified architectural presence." />
+  <style>
+    :root {
+      --bg: #050609;
+      --bg-alt: #080b11;
+      --fg: #f5f5f5;
+      --muted: #9aa2b4;
+      --accent: #c6ff7f;
+      --accent-soft: rgba(198, 255, 127, 0.08);
+      --accent-strong: rgba(198, 255, 127, 0.35);
+      --border: #202633;
+      --card: #0b1017;
+      --radius-lg: 22px;
+      --radius-md: 14px;
+      --radius-sm: 999px;
+      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Inter", sans-serif;
+      --max-width: 1120px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at top, #151c27 0, #050609 55%),
+        radial-gradient(circle at bottom, #050609 0, #020308 60%);
+      color: var(--fg);
+      font-family: var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* --- NAV --- */
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid rgba(32, 38, 51, 0.9);
+      background: linear-gradient(
+        to bottom,
+        rgba(5, 6, 9, 0.96),
+        rgba(5, 6, 9, 0.82),
+        rgba(5, 6, 9, 0.0)
+      );
+      backdrop-filter: blur(18px);
+    }
+
+    .nav {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-orb {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      border: 1px solid rgba(198, 255, 127, 0.35);
+      background:
+        radial-gradient(circle at 25% 0, #c6ff7f 0, #1b2416 40%, #050609 100%);
+      box-shadow:
+        0 0 0 1px rgba(198, 255, 127, 0.18),
+        0 0 40px rgba(198, 255, 127, 0.35),
+        0 18px 40px rgba(0, 0, 0, 0.9);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .brand-orb::after {
+      content: "";
+      position: absolute;
+      inset: 38% 18% 8% 18%;
+      border-radius: 999px;
+      border: 1px solid rgba(5, 6, 9, 0.8);
+      background: linear-gradient(
+        to bottom,
+        rgba(5, 6, 9, 0.1),
+        rgba(5, 6, 9, 0.9)
+      );
+    }
+
+    .nav-title {
+      font-size: 14px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .nav-sub {
+      font-size: 11px;
+      color: #6f7787;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .nav-links a {
+      position: relative;
+      padding-bottom: 2px;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 1px;
+      background: var(--accent);
+      transition: width 0.18s ease-out;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    main {
+      flex: 1;
+    }
+
+    .section {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 40px 20px 60px;
+    }
+
+    /* --- HERO --- */
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+      gap: 40px;
+      padding-top: 56px;
+      padding-bottom: 40px;
+      align-items: center;
+    }
+
+    .hero-kicker {
+      font-size: 12px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    .hero-title {
+      font-size: clamp(32px, 4vw, 46px);
+      line-height: 1.08;
+      margin-bottom: 16px;
+    }
+
+    .hero-title span.light {
+      background: linear-gradient(120deg, #f5f5f5, #c6ff7f);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-sub {
+      font-size: 15px;
+      color: var(--muted);
+      max-width: 480px;
+      margin-bottom: 22px;
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 26px;
+    }
+
+    .pill {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      background: rgba(8, 11, 17, 0.96);
+    }
+
+    .pill-accent {
+      border-color: var(--accent-strong);
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .hero-cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .btn {
+      border-radius: 999px;
+      padding: 9px 18px;
+      font-size: 13px;
+      border: 1px solid var(--border);
+      background: rgba(8, 11, 17, 0.96);
+      color: var(--fg);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: border-color 0.16s ease-out, background 0.16s ease-out,
+        transform 0.12s ease-out, box-shadow 0.12s ease-out;
+    }
+
+    .btn-primary {
+      border-color: var(--accent-strong);
+      background:
+        radial-gradient(circle at 0 0, #c6ff7f 0, #1b2416 40%, #050609 100%);
+      box-shadow:
+        0 0 0 1px rgba(198, 255, 127, 0.2),
+        0 18px 40px rgba(0, 0, 0, 0.9);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow:
+        0 0 0 1px rgba(198, 255, 127, 0.3),
+        0 22px 50px rgba(0, 0, 0, 0.95);
+    }
+
+    .btn span.icon {
+      font-size: 14px;
+    }
+
+    .hero-meta {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .hero-meta strong {
+      color: var(--fg);
+      font-weight: 500;
+    }
+
+    .hero-visual {
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      background:
+        radial-gradient(circle at top, #1b222f 0, #050609 60%);
+      padding: 16px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 26px 60px rgba(0, 0, 0, 0.9);
+    }
+
+    .hero-visual::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 20% 0, rgba(198, 255, 127, 0.16) 0, transparent 55%),
+        radial-gradient(circle at 80% 100%, rgba(120, 180, 255, 0.12) 0, transparent 55%);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .hero-visual-inner {
+      border-radius: 18px;
+      background:
+        radial-gradient(circle at 20% 0, #c6ff7f 0, #151d12 40%, #050609 100%);
+      position: relative;
+      min-height: 260px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      padding: 18px 18px 16px;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .hero-artifact {
+      width: 54%;
+      height: 190px;
+      border-radius: 18px;
+      border: 1px solid rgba(5, 6, 9, 0.9);
+      background:
+        linear-gradient(145deg, rgba(5, 6, 9, 0.9), rgba(10, 14, 18, 0.4)),
+        url("images/artifact-hero.jpg") center/cover no-repeat;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-artifact::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 50% 0, rgba(255, 255, 255, 0.18) 0, transparent 55%);
+      mix-blend-mode: screen;
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .hero-artifact::after {
+      content: "Artifact No. 01 — Ambient Frame";
+      position: absolute;
+      left: 12px;
+      bottom: 10px;
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(245, 245, 245, 0.86);
+      background: rgba(5, 6, 9, 0.78);
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(245, 245, 245, 0.12);
+      backdrop-filter: blur(10px);
+    }
+
+    .hero-panel {
+      width: 40%;
+      border-radius: 16px;
+      background: rgba(5, 6, 9, 0.9);
+      border: 1px solid rgba(198, 255, 127, 0.2);
+      padding: 12px 12px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--muted);
+      backdrop-filter: blur(14px);
+    }
+
+    .hero-panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+    }
+
+    .dot-row {
+      display: flex;
+      gap: 4px;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #3a414f;
+    }
+
+    .dot-accent {
+      background: var(--accent);
+      box-shadow: 0 0 10px rgba(198, 255, 127, 0.7);
+    }
+
+    .hero-panel-metric {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .hero-panel-metric span.label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+    }
+
+    .hero-panel-metric span.value {
+      font-size: 13px;
+      color: var(--fg);
+    }
+
+    .hero-panel-foot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10px;
+    }
+
+    .badge-soft {
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(198, 255, 127, 0.3);
+      background: rgba(198, 255, 127, 0.06);
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+    }
+
+    /* --- SECTIONS --- */
+
+    .section-label {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .section-heading {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .section-sub {
+      font-size: 14px;
+      color: var(--muted);
+      max-width: 540px;
+      margin-bottom: 26px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      background: radial-gradient(circle at top, #151b24 0, #050609 70%);
+      padding: 14px 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 0 0, rgba(198, 255, 127, 0.08) 0, transparent 55%);
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    .card-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-title {
+      font-size: 13px;
+      margin-bottom: 2px;
+    }
+
+    .card-body {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .card-tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .tag {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      padding: 3px 7px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      background: rgba(8, 11, 17, 0.96);
+    }
+
+    /* --- ARTIFACTS --- */
+
+    .artifacts-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .artifact-card {
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      background: radial-gradient(circle at top, #151b24 0, #050609 70%);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .artifact-image {
+      position: relative;
+      padding-top: 70%;
+      background: #11151c url("images/artifact-01.jpg") center/cover no-repeat;
+      overflow: hidden;
+    }
+
+    .artifact-image::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 50% 0, rgba(255, 255, 255, 0.18) 0, transparent 55%);
+      mix-blend-mode: screen;
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .artifact-body {
+      padding: 10px 12px 12px;
+      font-size: 13px;
+    }
+
+    .artifact-name {
+      margin-bottom: 4px;
+    }
+
+    .artifact-meta {
+      font-size: 11px;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      margin-top: 6px;
+    }
+
+    .artifact-light {
+      font-size: 11px;
+      color: var(--accent);
+      margin-top: 4px;
+    }
+
+    /* --- CONTACT --- */
+
+    .contact-block {
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      background: radial-gradient(circle at top left, rgba(198, 255, 127, 0.08) 0, #050609 55%);
+      padding: 16px 16px 14px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 13px;
+    }
+
+    .contact-lines {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .contact-lines span.label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+    }
+
+    .contact-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    /* --- FOOTER --- */
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 16px 20px 18px;
+      font-size: 11px;
+      color: var(--muted);
+      background: radial-gradient(circle at bottom, #050609 0, #020308 60%);
+    }
+
+    .footer-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    /* --- RESPONSIVE --- */
+
+    @media (max-width: 840px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .hero-visual {
+        order: -1;
+      }
+      .grid-3,
+      .artifacts-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="nav">
+        <div class="nav-left">
+          <div class="brand-orb"></div>
+          <div>
+            <div class="nav-title">Living Architecture</div>
+            <div class="nav-sub">Experiential objects of material, light, and behavior</div>
+          </div>
+        </div>
+        <nav class="nav-links">
+          <a href="#work">Artifacts</a>
+          <a href="#approach">Approach</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <!-- HERO -->
+      <section class="section hero">
+        <div>
+          <div class="hero-kicker">Experiential Objects Studio</div>
+          <h1 class="hero-title">
+            Experiential objects of<br />
+            material, <span class="light">light</span>, and behavior.
+          </h1>
+          <p class="hero-sub">
+            Living Architecture creates presence‑driven artifacts that merge structure, diffusion, and ambient light behavior to quietly transform the emotional atmosphere of a space.
+          </p>
+          <div class="hero-tags">
+            <span class="pill pill-accent">Light‑based artifacts</span>
+            <span class="pill">Ambient behavior</span>
+            <span class="pill">Architectural presence</span>
+            <span class="pill">Coastal minimal</span>
+          </div>
+          <div class="hero-cta-row">
+            <a href="#work" class="btn btn-primary">
+              <span class="icon">●</span>
+              <span>View current artifacts</span>
+            </a>
+            <a href="#contact" class="btn">
+              <span>Studio inquiries</span>
+            </a>
+          </div>
+          <div class="hero-meta">
+            <strong>Integration Architecture Holdings LLC</strong><br />
+            Operating as Living Architecture in South Orange County, California.
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="hero-visual-inner">
+            <div class="hero-artifact">
+              <!-- Replace images/artifact-hero.jpg with a real lit artifact photo -->
+            </div>
+            <div class="hero-panel">
+              <div class="hero-panel-header">
+                <span>Ambient light profile</span>
+                <div class="dot-row">
+                  <div class="dot"></div>
+                  <div class="dot dot-accent"></div>
+                  <div class="dot"></div>
+                </div>
+              </div>
+              <div class="hero-panel-metric">
+                <span class="label">Mode</span>
+                <span class="value">Coastal presence</span>
+              </div>
+              <div class="hero-panel-metric">
+                <span class="label">Light behavior</span>
+                <span class="value">Soft, low‑frequency, responsive</span>
+              </div>
+              <div class="hero-panel-metric">
+                <span class="label">Material stack</span>
+                <span class="value">Wood · diffusion · electronics</span>
+              </div>
+              <div class="hero-panel-foot">
+                <span>Edition‑based, hand‑built in studio.</span>
+                <span class="badge-soft">Artifact series</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- APPROACH -->
+      <section id="approach" class="section">
+        <div class="section-label">Approach</div>
+        <h2 class="section-heading">Architecture at the scale of light.</h2>
+        <p class="section-sub">
+          Each artifact is treated as a small architectural system: structure, optics, electronics, and behavior tuned together to create a specific emotional response in the room. The work sits between art, product, and environmental interface.
+        </p>
+
+        <div class="grid-3">
+          <div class="card">
+            <div class="card-inner">
+              <div class="card-title">Material integration</div>
+              <div class="card-body">
+                Wood, glass, diffusion media, and hardware are composed as a single system, not decoration on top of a form.
+              </div>
+              <div class="card-tag-row">
+                <span class="tag">Structure</span>
+                <span class="tag">Joinery</span>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-inner">
+              <div class="card-title">Light as behavior</div>
+              <div class="card-body">
+                Light is treated as a behavioral layer—slow, ambient, and responsive rather than performative or screen‑like.
+              </div>
+              <div class="card-tag-row">
+                <span class="tag">Ambient</span>
+                <span class="tag">Low frequency</span>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-inner">
+              <div class="card-title">Presence over spectacle</div>
+              <div class="card-body">
+                The goal is a quiet, persistent presence that makes a room feel more alive, not a gadget that demands attention.
+              </div>
+              <div class="card-tag-row">
+                <span class="tag">Coastal minimal</span>
+                <span class="tag">Long‑term</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ARTIFACTS -->
+      <section id="work" class="section">
+        <div class="section-label">Artifacts</div>
+        <h2 class="section-heading">Light‑based objects in the current series.</h2>
+        <p class="section-sub">
+          A small, evolving series of hand‑built artifacts. Each piece is constructed in‑studio, with light behavior tuned by hand and materials selected for long‑term presence in lived spaces.
+        </p>
+
+        <div class="artifacts-grid">
+          <article class="artifact-card">
+            <div class="artifact-image" style="background-image:url('images/artifact-01.jpg');">
+              <!-- Replace with real lit artifact photo -->
+            </div>
+            <div class="artifact-body">
+              <div class="artifact-name">Artifact No. 01 — Coastal Frame</div>
+              <div class="artifact-light">Soft perimeter glow, low‑frequency breathing behavior.</div>
+              <div class="artifact-meta">
+                <span>Wall‑mounted · wood · diffusion</span>
+                <span>Edition 1</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="artifact-card">
+            <div class="artifact-image" style="background-image:url('images/artifact-02.jpg');">
+            </div>
+            <div class="artifact-body">
+              <div class="artifact-name">Artifact No. 02 — Ambient Column</div>
+              <div class="artifact-light">Vertical gradient, subtle motion over time.</div>
+              <div class="artifact-meta">
+                <span>Floor piece · vertical presence</span>
+                <span>In development</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="artifact-card">
+            <div class="artifact-image" style="background-image:url('images/artifact-03.jpg');">
+            </div>
+            <div class="artifact-body">
+              <div class="artifact-name">Artifact No. 03 — Table Object</div>
+              <div class="artifact-light">Localized glow, responsive to proximity.</div>
+              <div class="artifact-meta">
+                <span>Desk‑scale · interaction</span>
+                <span>Prototype</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section id="contact" class="section">
+        <div class="section-label">Contact</div>
+        <h2 class="section-heading">Studio inquiries & integrations.</h2>
+        <p class="section-sub">
+          For commissions, gallery placement, or integration into larger architectural or experiential systems, reach out with a short note and any relevant context.
+        </p>
+
+        <div class="contact-block">
+          <div class="contact-lines">
+            <span class="label">Email</span>
+            <span>hello@livingarchitecture.studio</span>
+            <span class="label">Location</span>
+            <span>South Orange County, California</span>
+          </div>
+          <div class="contact-actions">
+            <a href="mailto:hello@livingarchitecture.studio" class="btn btn-primary">
+              <span class="icon">✉︎</span>
+              <span>Email the studio</span>
+            </a>
+            <a href="https://instagram.com" class="btn">
+              <span>Instagram</span>
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-inner">
+        <span>© <span id="year"></span> Integration Architecture Holdings LLC — Living Architecture.</span>
+        <span>Light‑based artifacts for lived spaces.</span>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
