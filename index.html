@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Living Architecture — Spatial Interface</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: #05060a;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Overlay text so you can still build your site on top */
+    .overlay {
+      position: absolute;
+      top: 40px;
+      left: 40px;
+      z-index: 10;
+      color: white;
+      font-size: 28px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      pointer-events: none;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- This is your 3D environment -->
+  <canvas id="la-environment"></canvas>
+
+  <!-- Overlay text (you can replace this later with your site sections) -->
+  <div class="overlay">Living Architecture</div>
+
+  <!-- Load Three.js from the internet (NO DOWNLOAD NEEDED) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r152/three.min.js"></script>
+
+  <script>
+    // Setup
+    const canvas = document.getElementById("la-environment");
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.Fog(0x05060a, 4, 12);
+
+    const camera = new THREE.PerspectiveCamera(
+      45,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      100
+    );
+    camera.position.set(0, 0, 4);
+
+    // Light
+    const light = new THREE.PointLight(0xc9f1ff, 1.4, 10);
+    light.position.set(1, 1, 2);
+    scene.add(light);
+
+    // Floating plane (your artifact pedestal)
+    const geo = new THREE.PlaneGeometry(3, 2);
+    const mat = new THREE.MeshStandardMaterial({
+      color: 0x0a0d12,
+      roughness: 0.8,
+      metalness: 0.1,
+    });
+    const plane = new THREE.Mesh(geo, mat);
+    scene.add(plane);
+
+    // Breathing motion
+    function animate() {
+      requestAnimationFrame(animate);
+
+      plane.rotation.y = Math.sin(Date.now() * 0.0002) * 0.05;
+      plane.rotation.x = Math.cos(Date.now() * 0.00015) * 0.03;
+
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    // Presence-reactive light
+    window.addEventListener("mousemove", (e) => {
+      const x = (e.clientX / window.innerWidth) * 2 - 1;
+      const y = -(e.clientY / window.innerHeight) * 2 + 1;
+      light.position.x = x * 2;
+      light.position.y = y * 2;
+    });
+
+    // Resize handling
+    window.addEventListener("resize", () => {
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+    });
+  </script>
+</body>
+</html>
