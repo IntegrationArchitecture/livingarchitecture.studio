@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Living Architecture — Spatial Interface</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- LINK TO YOUR CSS FILE -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- 3D ENVIRONMENT CANVAS -->
+  <canvas id="la-environment"></canvas>
+
+  <!-- OVERLAY TEXT -->
+  <div class="overlay">LIVING ARCHITECTURE</div>
+
+  <!-- LOAD THREE.JS FROM CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r152/three.min.js"></script>
+
+  <!-- 3D ENVIRONMENT SCRIPT -->
+  <script>
+    const canvas = document.getElementById("la-environment");
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x05060a);
+
+    const camera = new THREE.PerspectiveCamera(
+      45,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      100
+    );
+    camera.position.set(0, 0, 4);
+
+    const light = new THREE.PointLight(0xc9f1ff, 1.4, 10);
+    light.position.set(1, 1, 2);
+    scene.add(light);
+
+    const geo = new THREE.PlaneGeometry(3, 2);
+    const mat = new THREE.MeshStandardMaterial({
+      color: 0x0a0d12,
+      roughness: 0.8,
+      metalness: 0.1,
+    });
+    const plane = new THREE.Mesh(geo, mat);
+    scene.add(plane);
+
+    function animate() {
+      requestAnimationFrame(animate);
+
+      plane.rotation.y = Math.sin(Date.now() * 0.0002) * 0.05;
+      plane.rotation.x = Math.cos(Date.now() * 0.00015) * 0.03;
+
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener("mousemove", (e) => {
+      const x = (e.clientX / window.innerWidth) * 2 - 1;
+      const y = -(e.clientY / window.innerHeight) * 2 + 1;
+      light.position.x = x * 2;
+      light.position.y = y * 2;
+    });
+
+    window.addEventListener("resize", () => {
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+    });
+  </script>
+
+</body>
+</html>
